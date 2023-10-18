@@ -1,0 +1,82 @@
+  .login-page-container {
+    max-width: 100%;
+    background-color: lightblue!important;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    font-family: "Poppins", sans-serif;
+  }
+
+  .login-page-signup {
+    text-decoration: underline;
+  }
+
+  .login-page-signup:hover {
+    color: white;
+    cursor: pointer;
+  }
+  
+  .login-page-subheader {
+    text-align: center;
+    margin: 0;
+    padding: 20px 0;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .login-page-form {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .login-page-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: gray;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .login-page-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+
+  .submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: dodgerblue;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+
+  .submit-button:hover {
+    background-color: deepskyblue;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  .login-page-centered-div {
+    width: 300px;
+    height: 450px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 48%;
+    transform: translate(-50%, -50%);
+  }
