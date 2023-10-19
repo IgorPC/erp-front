@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import "./Login.css";
 import Request from "../../requests/Request";
+import CookieManager from "../../cookieManager/CookieManager";
 
 const Login = () => {
   const [email, setEmail] = useState("")
@@ -19,7 +20,15 @@ const Login = () => {
       password: password
     })
 
-    console.log(data)
+    if (data.data.success) {
+      const token = data.data.data.data.token
+      const userData = data.data.data.data.user
+
+      CookieManager.setJwtToken(token)
+      CookieManager.setUserData(userData)
+
+      redirectTo("/dashboard")
+    }
   }
   
   const handleEmail = (event: any) => {
@@ -29,7 +38,6 @@ const Login = () => {
   const handlePassword = (event: any) => {
     setPassword(event.target.value)
   }
-
 
   return (
         <div className="login-page-container login-page-centered-div">
