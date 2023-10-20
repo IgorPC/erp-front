@@ -11,7 +11,7 @@
   }
 
   .login-page-signup:hover {
-    color: white;
+    color: #1565c0;
     cursor: pointer;
   }
   
@@ -69,14 +69,20 @@
   }
   
   .login-page-centered-div {
-    width: 300px;
-    height: 450px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
     text-align: center;
-    padding: 20px;
     position: absolute;
     top: 50%;
     left: 48%;
     transform: translate(-50%, -50%);
+  }
+  
+  .login-page-system-title {
+    color: white;
+  }
+
+  .login-page-span {
+    position: absolute;
+      bottom: 0;
+      right: 0;
+      margin: 10px 52px 20px 10px; /* Margem opcional para espaçamento */
   }

@@ -114,17 +114,13 @@ const NavBar: React.FC<NavBarProps> = () => {
                     redirectTo={redirectTo}
                     menus={[
                         {
-                            name: "List",
-                            path: "/products/list"
+                            name: "Profile",
+                            path: "/users/profile"
                         },
                         {
-                            name: "Create",
-                            path: "/products/create"
-                        },
-                        {
-                            name: "Sell",
-                            path: "/products/sell"
-                        },
+                            name: "Logout",
+                            path: "/users/logout"
+                        }
                     ]}
                 />
                 <DesktopMenuItem
@@ -251,20 +247,15 @@ const NavBar: React.FC<NavBarProps> = () => {
                             redirectTo={redirectTo}
                             menus={[
                                 {
-                                    name: "List",
-                                    path: "/products/list",
+                                    name: "Profile",
+                                    path: "/users/profile",
                                     icon: <StarBorder/>
                                 },
                                 {
-                                    name: "Create",
-                                    path: "/products/create",
+                                    name: "Logout",
+                                    path: "/users/logout",
                                     icon: <StarBorder/>
-                                },
-                                {
-                                    name: "Sell",
-                                    path: "/products/sell",
-                                    icon: <StarBorder/>
-                                },
+                                }
                             ]}
                         />
                          <MobileMenuItem

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import TitleProps from './TitleProps';
 
 const Root = styled('div')(({ theme }) => ({

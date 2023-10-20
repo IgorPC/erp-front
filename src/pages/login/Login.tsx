@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import "./Login.css";
 import Request from "../../requests/Request";
 import CookieManager from "../../cookieManager/CookieManager";
+import Timer from "../../timer/Timer"
+import Box from '@mui/material/Box';
+import DefaultDivider from "../../components/divider/DefaultDivider";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import LoginRegisterLayout from "../../components/loginRegisterLayout/LoginRegisterLayout";
 
 const Login = () => {
   const [email, setEmail] = useState("")
@@ -20,17 +27,18 @@ const Login = () => {
       password: password
     })
 
-    if (data.data.success) {
+    if (data.data.data.success) {
       const token = data.data.data.data.token
       const userData = data.data.data.data.user
 
       CookieManager.setJwtToken(token)
       CookieManager.setUserData(userData)
+      CookieManager.setTokenTime(Timer.getCurrentTime())
 
       redirectTo("/dashboard")
     }
   }
-  
+
   const handleEmail = (event: any) => {
     setEmail(event.target.value)
   }
@@ -40,21 +48,21 @@ const Login = () => {
   }
 
   return (
-        <div className="login-page-container login-page-centered-div">
-          <h1>Simple ERP</h1>  
-          <hr />  
-          <h2 className="login-page-subheader">Login</h2>
-          <div className="login-page-form">
-            <label className="login-page-label" htmlFor="email">Email:</label>
-            <input className="login-page-input" onChange={handleEmail} type="email" id="email" name="email" />
-            <label className="login-page-label" htmlFor="password">Password:</label>
-            <input className="login-page-input" onChange={handlePassword} type="password" id="password" name="password" />
-            <button onClick={login} className="submit-button">Login</button>
-          </div>
-          <br />
-          <span>Don't have an account? <strong onClick={() => redirectTo('/register')} className="login-page-signup">Signup.</strong></span>
-        </div>
-      );
+    <LoginRegisterLayout
+      title="LOGIN"
+      width={300}
+      height={380}
+    >
+      <TextField helperText="Incorrect entry." error onChange={handleEmail} style={{ width: '100%' }} id="outlined-basic" type="email" label="Email" variant="outlined" />
+      <br />
+      <br />
+      <TextField onChange={handlePassword} style={{ width: '100%' }} id="outlined-basic" type="password" label="Password" variant="outlined" />
+      <br />
+      <br />
+      <Button onClick={login} style={{ width: '100%' }} variant="contained">Login</Button>
+      <span className="login-page-span">Don't have an account? <strong onClick={() => redirectTo('/register')} className="login-page-signup">Signup.</strong></span>
+    </LoginRegisterLayout>
+  )
 }
 
 export default Login

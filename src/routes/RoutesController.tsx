@@ -7,6 +7,7 @@ import Login from '../pages/login/Login';
 import Register from '../pages/register/Register';
 import DashboardPage from '../pages/dashboard/DashboardPage';
 import ListPage from '../pages/products/list/ListPage';
+import LogoutPage from '../pages/users/logout/LogoutPage';
 
 const RoutesController = () => {
     return (
@@ -17,6 +18,8 @@ const RoutesController = () => {
         <Route path="/dashboard" Component={DashboardPage} />
         <Route path="/products/create" Component={DashboardPage} />
         <Route path="/products/list" Component={ListPage} />
+
+        <Route path="/users/logout" Component={LogoutPage} />
       </Routes>
     )
     
