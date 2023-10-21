@@ -4,16 +4,21 @@ import "./Login.css";
 import Request from "../../requests/Request";
 import CookieManager from "../../cookieManager/CookieManager";
 import Timer from "../../timer/Timer"
-import Box from '@mui/material/Box';
-import DefaultDivider from "../../components/divider/DefaultDivider";
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import LoginRegisterLayout from "../../components/loginRegisterLayout/LoginRegisterLayout";
+import TextInput from "../../components/inputs/textInput/TextInput";
+import Spinner from "../../components/spinner/Spinner";
+import DefaultAlert from "../../components/alert/DefaultAlert";
 
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [emailError, setEmailError] = useState("")
+  const [passwordError, setPasswordError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [pageHeight, setPageHeight] = useState(410)
+  const [requestError, setRequestError] = useState(false)
+  const [requestErrorMessage, setRequestErrorMessage] = useState("")
 
   const navigate = useNavigate();
 
@@ -21,11 +26,44 @@ const Login = () => {
     navigate(path);
   }
 
+  const validateFields = () => {
+    let error = false;
+
+    if (! email) {
+      setEmailError("Email is required")
+      error = true
+    }
+
+    if (! password) {
+      setPasswordError("Password is required")
+      error = true
+    }
+
+    if (error) {
+      return false
+    }
+
+    return true;
+  }
+
   const login = async () => {
+    setRequestError(false)
+
+    if (! validateFields()) {
+      return false
+    }
+
+    setIsLoading(true)
+
     const data = await Request.post('/login', {
       email: email,
       password: password
     })
+
+    if (! data) {
+      setError("Internal Server Error")
+      return false
+    }
 
     if (data.data.data.success) {
       const token = data.data.data.data.token
@@ -37,30 +75,84 @@ const Login = () => {
 
       redirectTo("/dashboard")
     }
+    
+    setError("Invalid Email or Password")
   }
 
-  const handleEmail = (event: any) => {
-    setEmail(event.target.value)
+  const setError = (message: string) => {
+    setIsLoading(false)
+    setRequestError(true)
+    setRequestErrorMessage(message)
+    setPageHeight(450)
   }
 
-  const handlePassword = (event: any) => {
-    setPassword(event.target.value)
+  const handleEmail = (value: string) => {
+    setEmailError("")
+    setEmail(value)
+  }
+
+  const handlePassword = (value: string) => {
+    setPasswordError("")
+    setPassword(value)
+  }
+
+  let bottomContent = (
+    <Button 
+      onClick={login} 
+      style={{ width: '100%' }} 
+      variant="contained">
+        Login
+    </Button>
+  )
+
+  if (isLoading) {
+    bottomContent = (
+      <Spinner/>
+    )
+  }
+
+  let displayError = (<></>)
+
+  if (requestError) {
+    displayError = (
+      <div>
+        <br />
+        <DefaultAlert
+          type="error"
+          message={requestErrorMessage}
+        />
+      </div>
+    )
   }
 
   return (
     <LoginRegisterLayout
       title="LOGIN"
       width={300}
-      height={380}
+      height={pageHeight}
     >
-      <TextField helperText="Incorrect entry." error onChange={handleEmail} style={{ width: '100%' }} id="outlined-basic" type="email" label="Email" variant="outlined" />
+      <TextInput
+        name="Email"
+        type="email"
+        callback={handleEmail}
+        error={emailError}
+      />
       <br />
       <br />
-      <TextField onChange={handlePassword} style={{ width: '100%' }} id="outlined-basic" type="password" label="Password" variant="outlined" />
+      <TextInput
+        name="Password"
+        type="password"
+        callback={handlePassword}
+        error={passwordError}
+      />
       <br />
       <br />
-      <Button onClick={login} style={{ width: '100%' }} variant="contained">Login</Button>
-      <span className="login-page-span">Don't have an account? <strong onClick={() => redirectTo('/register')} className="login-page-signup">Signup.</strong></span>
+      
+      { bottomContent }
+
+      { displayError }
+
+      <span className="login-page-span">Don't have an account? <strong onClick={() => redirectTo('/register')} className="login-page-signup">Sign up.</strong></span>
     </LoginRegisterLayout>
   )
 }

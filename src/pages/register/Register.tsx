@@ -1,31 +1,55 @@
 import React, { useState, Fragment } from "react";
 import "./Register.css";
 import { useNavigate } from 'react-router-dom';
-import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Request from "../../requests/Request";
+import LoginRegisterLayout from "../../components/loginRegisterLayout/LoginRegisterLayout";
+import TextInput from "../../components/inputs/textInput/TextInput";
+import Spinner from "../../components/spinner/Spinner";
+import DefaultAlert from "../../components/alert/DefaultAlert";
 
 const Register = () => {
   const [email, setEmail] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+
+  const [emailError, setEmailError] = useState("")
+  const [firstNameError, setFirstNameError] = useState("")
+  const [lastNameError, setLastNameError] = useState("")
+  const [passwordError, setPasswordError] = useState("")
+  const [confirmPasswordError, setConfirmPasswordError] = useState("")
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [pageHeight, setPageHeight] = useState(710)
+  const [requestError, setRequestError] = useState(false)
+  const [requestErrorMessage, setRequestErrorMessage] = useState("")
   const [done, setDone] = useState(false)
 
-  const handleEmail = (event: any) => {
-    setEmail(event.target.value)
+  const handleEmail = (value: string) => {
+    setEmailError("")
+    setEmail(value)
   }
 
-  const handleFirstName = (event: any) => {
-    setFirstName(event.target.value)
+  const handleFirstName = (value: string) => {
+    setFirstNameError("")
+    setFirstName(value)
   }
 
-  const handleLastName = (event: any) => {
-    setLastName(event.target.value)
+  const handleLastName = (value: string) => {
+    setLastNameError("")
+    setLastName(value)
   }
 
-  const handlePassword = (event: any) => {
-    setPassword(event.target.value)
+  const handlePassword = (value: string) => {
+    setPasswordError("")
+    setPassword(value)
+  }
+
+  const handleConfirmPassword = (value: string) => {
+    setConfirmPasswordError("")
+    setConfirmPassword(value)
   }
 
   const navigate = useNavigate();
@@ -35,6 +59,14 @@ const Register = () => {
   }
 
   const register = async () => {
+    setPageHeight(710)
+    
+    if (!validateFields()) {
+      return false;
+    }
+
+    setIsLoading(true)
+
     const body = {
       email: email,
       first_name: firstName,
@@ -43,61 +75,174 @@ const Register = () => {
     }
 
     const data = await Request.post('/register', body)
-    console.log(data)
-    if (data.data.success) {
-      setDone(true)
+
+    if (!data) {
+      setError("Internal Server Error")
+      setIsLoading(false)
+      return false
     }
 
-    //console.log(data)
+    if (data.data.data.success) {
+      setIsLoading(false)
+      setDone(true)
+      setPageHeight(330)
+      return false
+    }
+
+    setError(data.data.data.data)
+    setIsLoading(false)
+  }
+
+  const setError = (message: string) => {
+    setIsLoading(false)
+    setRequestError(true)
+    setRequestErrorMessage(message)
+  }
+
+  const validateFields = () => {
+    let error = false;
+
+    if (!email) {
+      setEmailError("Email is required")
+      error = true
+    }
+
+    if (!password) {
+      setPasswordError("Password is required")
+      error = true
+    }
+
+    if (!confirmPassword) {
+      setConfirmPasswordError("You have to confirm your password")
+      error = true
+    }
+
+    if (password && confirmPassword && password !== confirmPassword) {
+      setConfirmPasswordError("Your password does not match")
+      error = true
+    }
+
+    if (!firstName) {
+      setFirstNameError("First Name is required")
+      error = true
+    }
+
+    if (!lastName) {
+      setLastNameError("Last Name is required")
+      error = true
+    }
+
+    if (error) {
+      return false
+    }
+
+    return true;
+  }
+
+  let bottomContent = (
+    <Button
+      onClick={register}
+      style={{ width: '100%' }}
+      variant="contained">
+      Register
+    </Button>
+  )
+
+  if (isLoading) {
+    bottomContent = (
+      <Spinner />
+    )
+  }
+
+  let displayError = (<></>)
+
+  if (requestError) {
+    displayError = (
+      <div>
+        <br />
+        <DefaultAlert
+          type="error"
+          message={requestErrorMessage}
+        />
+      </div>
+    )
   }
 
   let body = (
     <Fragment>
-      <Alert variant="filled" severity="success">
-          Account Created!
-        </Alert>
-        <div className="register-done-component">
-          <div>
-        </div>
-          <div>
-            <p>Please go the login page to access your account</p>
-        </div>
-          <div>
-            <Button onClick={redirectToLogin} variant="contained">Go to Login</Button>
-          </div>
-        </div>
+      <TextInput
+        name="Email"
+        type="email"
+        callback={handleEmail}
+        error={emailError}
+      />
+      <br />
+      <br />
+      <TextInput
+        name="First Name"
+        type="text"
+        callback={handleFirstName}
+        error={firstNameError}
+      />
+      <br />
+      <br />
+      <TextInput
+        name="Last Name"
+        type="text"
+        callback={handleLastName}
+        error={lastNameError}
+      />
+      <br />
+      <br />
+      <TextInput
+        name="Password"
+        type="password"
+        callback={handlePassword}
+        error={passwordError}
+      />
+      <br />
+      <br />
+      <TextInput
+        name="Confirm Password"
+        type="password"
+        callback={handleConfirmPassword}
+        error={confirmPasswordError}
+      />
+      <br />
+      <br />
+
+      {bottomContent}
+
+      {displayError}
+
+      <span className="login-page-span">Already have an account? <strong onClick={redirectToLogin} className="login-page-signup">Sign in.</strong></span>
     </Fragment>
   )
 
-  if (! done) {
+  if (done) {
     body = (
-      <Fragment>
-        <label className="register-page-label" htmlFor="email">Email:</label>
-        <input onChange={handleEmail} className="register-page-input" type="email" id="email" name="email" />
-        <label className="register-page-label" htmlFor="first_name">First Name:</label>
-        <input onChange={handleFirstName} className="register-page-input" type="text" id="first_name" name="first_name" />
-        <label className="register-page-label" htmlFor="last_name">Last Name:</label>
-        <input onChange={handleLastName} className="register-page-input" type="text" id="last_name" name="last_name" />
-        <label className="register-page-label" htmlFor="password">Password:</label>
-        <input onChange={handlePassword} className="register-page-input" type="password" id="password" name="password" />
-        <label className="register-page-label" htmlFor="confirm_password">Confirm Password:</label>
-        <input className="register-page-input" type="password" id="confirm_password" name="confirm_password" />
-        <button onClick={register} className="submit-button">Register</button>
-      </Fragment>
+      <div>
+        <p>Your account was successfully created!</p>
+        <p>Use your <strong>EMAIL</strong> and <strong>PASSWORD</strong> to access your account</p>
+        <br />
+        <Button
+          onClick={redirectToLogin}
+          style={{ width: '100%' }}
+          variant="contained">
+          GO TO LOGIN PAGE
+        </Button>
+      </div>
     )
   }
 
   return (
-    <div className="register-page-container centered-div">
-      <h1>Simple ERP</h1>
-      <hr />
-      <h2 className="register-page-subheader">Register</h2>
-      <div className="register-page-form">
-        { body }
-      </div>
-      <br />
-      <span>Already have an account? <strong onClick={redirectToLogin} className="register-page-signup">Signin.</strong></span>
-    </div>
+    <LoginRegisterLayout
+      title="REGISTER"
+      width={300}
+      height={pageHeight}
+    >
+      { body }
+    </LoginRegisterLayout>
   )
 }
 

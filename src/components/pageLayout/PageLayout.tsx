@@ -14,6 +14,7 @@ import "./PageLayout.css"
 
 const PageLayout: React.FC<PageLayoutProps> = ({children, title}) => {
     useEffect(() => {
+      document.title = capitalizeFirstLetter(title);
       document.addEventListener('mousemove', handleUserInteraction);
       document.addEventListener('keydown', handleUserInteraction);
 
@@ -23,6 +24,10 @@ const PageLayout: React.FC<PageLayoutProps> = ({children, title}) => {
         clearInterval(timeInterval)
       };
     }, [])
+
+    const capitalizeFirstLetter = (string: string) => {
+      return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
 
     const validateToken = async () => {
       Timer.validateTokenIntegrity()
@@ -36,7 +41,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({children, title}) => {
         <Box>
           <CssBaseline />
           <NavBar/>
-          <Box component="main" sx={{ p: 3 }}>
+          <Box style={{background: 'white'}} component="main" sx={{ p: 3 }}>
             <Toolbar />
             <Title
               name={title}

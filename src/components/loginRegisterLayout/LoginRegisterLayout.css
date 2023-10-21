@@ -6,3 +6,6 @@
     transform: translate(-50%, -50%);
   }
   
+body {
+  background-color: rgb(79, 153, 172);
+}
