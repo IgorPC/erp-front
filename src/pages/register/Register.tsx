@@ -107,6 +107,11 @@ const Register = () => {
       error = true
     }
 
+    if (! email.includes("@")) {
+      setEmailError("Invalid Email")
+      error = true
+    }
+
     if (!password) {
       setPasswordError("Password is required")
       error = true
