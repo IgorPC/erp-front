@@ -9,10 +9,11 @@ import CookieManager from '../../cookieManager/CookieManager';
 
 const ProfilePicture: React.FC<ProfilePictureProps> = (props) => {
   const [photo, setPhoto] = useState("https://img.freepik.com/vetores-gratis/ilustracao-de-homem-negocios_53876-5856.jpg")
+  const basePath = "http://127.0.0.1:8000/storage/"
 
   useEffect(() => {
     if (props.pictureUrl) {
-      setPhoto(props.pictureUrl)
+      setPhoto(basePath + props.pictureUrl)
     }
   }, [])
 
