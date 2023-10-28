@@ -6,12 +6,12 @@ const getCurrentTime = () => {
     return `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`
 }
 
-const compareTokenTime = () => {
-    return calculateDifferenceFromCurrentTime(CookieManager.getTokenTime())
+const compareTokenTime = async () => {
+    return calculateDifferenceFromCurrentTime(await CookieManager.getTokenTime())
 }
 
-const compareLastInteraction = () => {
-    return calculateDifferenceFromCurrentTime(CookieManager.getLastInteraction())
+const compareLastInteraction = async () => {
+    return calculateDifferenceFromCurrentTime(await CookieManager.getLastInteraction())
 }
 
 const calculateDifferenceFromCurrentTime = (time: string) => {
@@ -28,8 +28,8 @@ const calculateDifferenceFromCurrentTime = (time: string) => {
 }
 
 const validateTokenIntegrity = async () => {
-    const tokenCreatedTime = compareTokenTime()
-    const lastInteractionTime = compareLastInteraction()
+    const tokenCreatedTime = await compareTokenTime()
+    const lastInteractionTime = await compareLastInteraction()
     const tokenExpiration = 15
     const InteractionExpiration = 10
 
@@ -48,16 +48,16 @@ const validateTokenIntegrity = async () => {
     if (tokenCreatedTime >= tokenExpiration && lastInteractionTime < InteractionExpiration) {
         console.log(`Verified at ${getCurrentTime()} - Token must be updated`)
         
-        const USER = CookieManager.getUserData()
+        const user = await CookieManager.getUserData()
         const body = {
-            email: USER.email
+            email: user.email
         }
     
         const data = await Request.post("/regenerate-token", body, true)
     
         if (data.status === 200) {
-            CookieManager.setJwtToken(data.data.data.message)
-            CookieManager.setTokenTime(getCurrentTime())
+            await CookieManager.setJwtToken(data.data.data.message)
+            await CookieManager.setTokenTime(getCurrentTime())
 
             return
         }

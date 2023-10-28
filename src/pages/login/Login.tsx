@@ -69,9 +69,9 @@ const Login = () => {
       const token = data.data.data.data.token
       const userData = data.data.data.data.user
 
-      CookieManager.setJwtToken(token)
-      CookieManager.setUserData(userData)
-      CookieManager.setTokenTime(Timer.getCurrentTime())
+      await CookieManager.setJwtToken(token)
+      await CookieManager.setUserData(userData)
+      await CookieManager.setTokenTime(Timer.getCurrentTime())
 
       redirectTo("/dashboard")
     }

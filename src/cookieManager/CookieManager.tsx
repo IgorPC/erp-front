@@ -1,30 +1,30 @@
 import Cookies from "js-cookie"
 
-const setJwtToken = (token: string) => {
-    Cookies.set('jwtToken', token);
+const setJwtToken = async (token: string) => {
+    await Cookies.set('jwtToken', token);
 }
 
-const setUserData = (userData: object) => {
-    Cookies.set('userData', JSON.stringify(userData));
+const setUserData = async (userData: object) => {
+    await Cookies.set('userData', JSON.stringify(userData));
 }
 
-const getJwtToken = () => {
-    return Cookies.get('jwtToken')
+const getJwtToken = async () => {
+    return await Cookies.get('jwtToken')
 }
 
-const getUserData = () => {
-    const data = Cookies.get('userData');
+const getUserData = async () => {
+    const data = await Cookies.get('userData');
     if (data) {
         return JSON.parse(data)
     }
 }
 
-const setLastInteraction = (time: string) => {
-    Cookies.set('lastInteraction', time);
+const setLastInteraction = async (time: string) => {
+    await Cookies.set('lastInteraction', time);
 }
 
-const getLastInteraction = ():string => {
-    const data = Cookies.get('lastInteraction')
+const getLastInteraction = async () => {
+    const data = await Cookies.get('lastInteraction')
     if (data) {
         return data
     }
@@ -32,12 +32,12 @@ const getLastInteraction = ():string => {
     return '00:00:00'
 }
 
-const setTokenTime = (time: string) => {
-    Cookies.set('tokenTime', time);
+const setTokenTime = async(time: string) => {
+    await Cookies.set('tokenTime', time);
 }
 
-const getTokenTime = ():string => {
-    const data = Cookies.get('tokenTime')
+const getTokenTime = async () => {
+    const data = await Cookies.get('tokenTime')
     if (data) {
         return data
     }
@@ -45,11 +45,11 @@ const getTokenTime = ():string => {
     return '00:00:00'
 }
 
-const clearSessionData = () => {
-    Cookies.remove('jwtToken')
-    Cookies.remove('userData')
-    Cookies.remove('tokenTime')
-    Cookies.remove('lastInteraction')
+const clearSessionData = async () => {
+    await Cookies.remove('jwtToken')
+    await Cookies.remove('userData')
+    await Cookies.remove('tokenTime')
+    await Cookies.remove('lastInteraction')
 }
 
 export default { 
