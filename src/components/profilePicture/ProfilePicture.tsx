@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import ProfilePictureProps from './ProfilePictureProps';
 import Request from '../../requests/Request';
 import CookieManager from '../../cookieManager/CookieManager';
+import FileUploader from '../fileUploader/FileUploader';
 
 const ProfilePicture: React.FC<ProfilePictureProps> = (props) => {
   const [photo, setPhoto] = useState("https://img.freepik.com/vetores-gratis/ilustracao-de-homem-negocios_53876-5856.jpg")
-  const basePath = "http://127.0.0.1:8000/storage/"
+  const basePath = "http://127.0.0.1:8000/storage"
 
   useEffect(() => {
     if (props.pictureUrl) {
@@ -41,30 +41,32 @@ const ProfilePicture: React.FC<ProfilePictureProps> = (props) => {
     })
   }
 
-  const upload = async () => {
-    const fileInput: HTMLElement | null = document.getElementById('file-input');
-
-    if (!fileInput) {
-      return false
+  const upload = async (files: any) => {
+    if (! files.length) {
+      return false;
     }
 
-    if (fileInput instanceof HTMLInputElement) {
-      const uploader = fileInput.files
+    const validFormats = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png" 
+    ]
 
-      if (uploader && uploader.length > 0) {
-        const fileBase64 = await handleFile(uploader[0])
-        const body = {
-          file: fileBase64,
-          mimeType: uploader[0].type
-        }
+    if (! validFormats.includes(files[0].mimeType)) {
+        props.callback("Invalid Format, please update a JPEG, JPG or PNG image")
+        return false;
+    }
 
-        const userData = await CookieManager.getUserData()
-        const response = await Request.put(`/profile-picture/${userData.id}`, body, true)
-        
-        if (response && response.data.success) {
-          props.callback(true)
-        }
-      }
+    const body = {
+      file: files[0].file,
+      mimeType: files[0].mimeType
+    }
+
+    const userData = await CookieManager.getUserData()
+    const response = await Request.put(`/profile-picture/${userData.id}`, body, true)
+    
+    if (response && response.data.success) {
+      props.callback("")
     }
   }
 
@@ -78,8 +80,11 @@ const ProfilePicture: React.FC<ProfilePictureProps> = (props) => {
           image={photo}
         />
         <CardActions>
-          <Button onClick={fireUploadEvent} size="medium">Change Profile Picture</Button>
-          <input onChange={upload} hidden type="file" id="file-input" accept=".jpg, .jpeg, .png" />
+         <FileUploader
+          name='CHANGE PROFILE PICTURE'
+          callback={upload}
+          multiple={false}
+         />
         </CardActions>
       </Card>
     </div>

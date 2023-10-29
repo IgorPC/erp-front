@@ -119,10 +119,14 @@ const ProfilePage = () => {
         setZipCode(value)
     }
 
-    const handleProfilePictureChange = async (pictureUpdated: boolean) => {
-        if (pictureUpdated) {
+    const handleProfilePictureChange = async (hasError: string) => {
+        if (! hasError) {
             window.location = window.location;
+            return true;
         }
+
+        setError(hasError)
+        setSuccess("")
     }
 
     const validatePersonalInfoFields = () => {
