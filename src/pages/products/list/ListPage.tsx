@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import PageLayout from '../../../components/pageLayout/PageLayout';
 import DefaultPagination from "../../../components/pagination/DefaultPagination"
 import Request from "../../../requests/Request"
-import DefaultAccordion from "../../../components/accordion/ProductAccordion/ProductAccordion";
+import ProductAccordion from "../../../components/accordion/ProductAccordion/ProductAccordion";
 import PageLoadingSpinner from "../../../components/pageLoading/PageLoading";
 import HelperFunctions from "../../../utilities/HelperFunctions";
 import TextInput from "../../../components/inputs/textInput/TextInput";
@@ -158,7 +158,7 @@ const ListPage = () => {
             if (product.id !== undefined) {
               return (
                 <div key={`product-accordion-${product.id}`} className="product-list-accordion">
-                  <DefaultAccordion
+                  <ProductAccordion
                     name={product.name}
                     price={product.price}
                     quantity={product.quantity}
