@@ -82,11 +82,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                         {
                             name: "Create",
                             path: "/products/create"
-                        },
-                        {
-                            name: "Sell",
-                            path: "/products/sell"
-                        },
+                        }
                     ]}
                 />
                 <DesktopMenuItem
@@ -211,12 +207,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                                     name: "Create",
                                     path: "/products/create",
                                     icon: <StarBorder/>
-                                },
-                                {
-                                    name: "Sell",
-                                    path: "/products/sell",
-                                    icon: <StarBorder/>
-                                },
+                                }
                             ]}
                         />
                         <MobileMenuItem

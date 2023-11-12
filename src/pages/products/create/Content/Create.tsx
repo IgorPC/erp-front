@@ -1,11 +1,11 @@
-const List = () => {
+const Create = () => {
     return (
         <div>
-<p>Rafael</p>
+        <p>Rafael</p>
         <h1>Test</h1>
         </div>
         
     )
 }
 
-export default List
+export default Create

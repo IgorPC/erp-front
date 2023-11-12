@@ -1,0 +1,14 @@
+.product-list-accordion {
+    margin-bottom: 10px;
+}
+
+.filterContainer {
+    display: flex;
+  
+    align-items: center;
+}
+
+.filterContainerContent {
+    font-weight: bold;
+    margin-top: 0.8rem;
+}

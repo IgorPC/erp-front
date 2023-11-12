@@ -1,0 +1,24 @@
+.productAccordionLabel {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.productAccordionTitle {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.productAccordionTitleContainer {
+    width: 100%;
+    overflow: hidden; /* Para evitar problemas de layout com floats */
+}
+
+
+.productAccordionTitleLeft {
+    float: left;
+}
+
+.productAccordionTitleRight {
+    float: right;
+    margin-right: 2rem;
+}
