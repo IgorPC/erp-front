@@ -27,7 +27,7 @@ const ListPage = () => {
 
   const [page, setPage] = useState(1)
   const [totalOfPages, setTotalOfPages] = useState(1)
-  const [filterBy, setFilterBy] = useState("")
+  const [filterBy, setFilterBy] = useState("name")
   const [filterText, setFilterText] = useState("")
   const [products, setProducts] = useState<ProductObject[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -67,29 +67,30 @@ const ListPage = () => {
 
       const response = await Request.get(url, true)
       setTotalOfPages(response.data.last_page)
+      setPage(response.data.current_page)
 
-      const list: ProductObject[] =[]
+      const list: ProductObject[] = []
 
       await response.data.data.map((product: any) => {
-        if (! products.some((productList: any) => productList.id === product.id)) {
-
-          const newProduct: ProductObject = {
-            id: product.id,
-            code: product.code,
-            name: product.name,
-            price: product.price,
-            createdBy: `${product.created_by.first_name} ${product.created_by.last_name}`,
-            quantity: product.quantity,
-            status: product.product_status.description,
-            createdAt: HelperFunctions.timeFormater(product.created_at),
-            updatedAt: HelperFunctions.timeFormater(product.updated_at)
-          }
-
-          list.push(newProduct)
+        const newProduct: ProductObject = {
+          id: product.id,
+          code: product.code,
+          name: product.name,
+          price: product.price,
+          createdBy: `${product.created_by.first_name} ${product.created_by.last_name}`,
+          quantity: product.quantity,
+          status: product.product_status.description,
+          createdAt: HelperFunctions.timeFormater(product.created_at),
+          updatedAt: HelperFunctions.timeFormater(product.updated_at)
         }
+
+        list.push(newProduct)
       });
 
       if (list.length) {
+        const emptyList: ProductObject[] = []
+        setProducts(emptyList)
+
         setProducts(list)
       }
       
