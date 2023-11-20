@@ -23,14 +23,14 @@ const SelectInput: React.FC<SelectInputProps> = ({options, name, callback}) => {
     }, [])
 
     const handleChange = (event: SelectChangeEvent) => {
-        const objetoEncontrado = options.find((objeto: any) => objeto.field === event.target.value);
-        
-        if (objetoEncontrado !== undefined) {
-            setOption(objetoEncontrado)
-            setOptionValue(objetoEncontrado.field)
-        }
+        const objectFound = options.find((object: any) => object.field === event.target.value);
+ 
+        if (objectFound !== undefined) {
+            setOption(objectFound)
+            setOptionValue(objectFound.field)
 
-        callback(option)
+            callback(objectFound)
+        }
     };
 
     return (
