@@ -17,20 +17,23 @@ import DnsIcon from '@mui/icons-material/Dns';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import SettingsIcon from '@mui/icons-material/Settings';
 import GroupIcon from '@mui/icons-material/Group';
-import AvTimerIcon from '@mui/icons-material/AvTimer';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import Button from '@mui/material/Button';
 import NavBarProps from './NavbarProps';
 import DesktopMenuItem from './desktopMenuItem/DesktopMenuItem';
 import MobileMenuItem from './mobileMenuItem/MobileMenuItem';
 import { useNavigate } from 'react-router-dom';
+import CookieManager from '../../cookieManager/CookieManager';
 
 const NavBar: React.FC<NavBarProps> = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [windowSize, setWindowSize] = useState(window.innerWidth)
+    const [user, setUser] = useState("")
     const navigate = useNavigate();
 
     useEffect(() => {
         window.addEventListener('resize', handleWindowSize);
+        userData()
     });
 
     const handleWindowSize = () => {
@@ -41,6 +44,11 @@ const NavBar: React.FC<NavBarProps> = () => {
         if (path) {
            navigate(path);
         }
+    }
+
+    const userData = async () => {
+        const data = await CookieManager.getUserData()
+        setUser(`${data.first_name} ${data.last_name}`)
     }
 
     const handleDrawerToggle = () => {
@@ -58,7 +66,6 @@ const NavBar: React.FC<NavBarProps> = () => {
             </Typography>
         </div>
     )
-
 
     if (windowSize >= 600) {
         desktopContent = (
@@ -86,27 +93,23 @@ const NavBar: React.FC<NavBarProps> = () => {
                     ]}
                 />
                 <DesktopMenuItem
-                    icon={<AvTimerIcon />}
-                    name="Tickets"
+                    icon={<GroupIcon />}
+                    name="Clients"
                     redirectTo={redirectTo}
                     menus={[
                         {
                             name: "List",
-                            path: "/products/list"
+                            path: "/clients/list"
                         },
                         {
                             name: "Create",
-                            path: "/products/create"
-                        },
-                        {
-                            name: "Sell",
-                            path: "/products/sell"
-                        },
+                            path: "/clients/create"
+                        }
                     ]}
                 />
                 <DesktopMenuItem
-                    icon={<GroupIcon />}
-                    name="Users"
+                    icon={<AssignmentIndIcon />}
+                    name={user ? user : "User"}
                     redirectTo={redirectTo}
                     menus={[
                         {
@@ -211,30 +214,25 @@ const NavBar: React.FC<NavBarProps> = () => {
                             ]}
                         />
                         <MobileMenuItem
-                            name="Products"
-                            icon={ <AvTimerIcon />}
+                            name="Clients"
+                            icon={ <GroupIcon />}
                             redirectTo={redirectTo}
                             menus={[
                                 {
                                     name: "List",
-                                    path: "/products/list",
+                                    path: "/clients/list",
                                     icon: <StarBorder/>
                                 },
                                 {
                                     name: "Create",
-                                    path: "/products/create",
+                                    path: "/clients/create",
                                     icon: <StarBorder/>
-                                },
-                                {
-                                    name: "Sell",
-                                    path: "/products/sell",
-                                    icon: <StarBorder/>
-                                },
+                                }
                             ]}
                         />
                         <MobileMenuItem
-                            name="Users"
-                            icon={ <GroupIcon />}
+                            name={user ? user : "User"}
+                            icon={ <AssignmentIndIcon />}
                             redirectTo={redirectTo}
                             menus={[
                                 {

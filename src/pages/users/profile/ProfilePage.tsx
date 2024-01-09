@@ -253,8 +253,8 @@ const ProfilePage = () => {
             return false
         }
 
-
         setSuccess(response.data.data)
+        CookieManager.setUserData(response.data.user)
         setIsLoading(false)
     }
 
