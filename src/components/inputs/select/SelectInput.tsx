@@ -5,7 +5,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import SelectInputProps from "./SelectInputProps";
 
-const SelectInput: React.FC<SelectInputProps> = ({options, name, callback}) => {
+const SelectInput: React.FC<SelectInputProps> = ({options, name, callback, value}) => {
     const id = `select-${name}`
     const [option, setOption] = useState({
         field: "",
@@ -15,11 +15,21 @@ const SelectInput: React.FC<SelectInputProps> = ({options, name, callback}) => {
     const [optionValue, setOptionValue] = useState(option.value)
     
     useEffect(() => {
-        setOption({
-            field: options[0].field,
-            value: options[0].value
-        })
-        setOptionValue(options[0].field)
+        if (options.length) {
+            if (value) {
+                setOption({
+                    field: value.field,
+                    value: value.value
+                })
+                setOptionValue(value.field)
+            } else {
+                setOption({
+                    field: options[0].field,
+                    value: options[0].value
+                })
+                setOptionValue(options[0].field)
+            }
+        }
     }, [])
 
     const handleChange = (event: SelectChangeEvent) => {

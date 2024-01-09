@@ -1,7 +1,8 @@
 interface SelectInputProps {
     options: optionsProps[],
     name: string,
-    callback: Function
+    callback: Function,
+    value?: optionsProps
 }
 
 interface optionsProps {
