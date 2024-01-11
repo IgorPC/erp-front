@@ -21,6 +21,7 @@ const getUserData = async () => {
 
 const setLastInteraction = async (time: string) => {
     await Cookies.set('lastInteraction', time);
+    console.log("test")
 }
 
 const getLastInteraction = async () => {
