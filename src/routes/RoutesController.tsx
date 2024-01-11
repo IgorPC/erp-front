@@ -11,6 +11,8 @@ import CreatePage from '../pages/products/create/CreatePage';
 import LogoutPage from '../pages/users/logout/LogoutPage';
 import ProfilePage from '../pages/users/profile/ProfilePage';
 import EditProductPage from '../pages/products/edit/EditProductPage';
+import CreateClientPage from '../pages/clients/create/CreatePage';
+import EditClientPage from '../pages/clients/edit/EditPage';
 
 const RoutesController = () => {
     return (
@@ -23,6 +25,9 @@ const RoutesController = () => {
         <Route path="/products/create" Component={CreatePage} />
         <Route path="/products/list" Component={ListPage} />
         <Route path="/product/:id" Component={EditProductPage} />
+
+        <Route path='/clients/create' Component={CreateClientPage} />
+        <Route path='/client/:id' Component={EditClientPage} />
 
         <Route path='/users/profile' Component={ProfilePage} />
         <Route path="/users/logout" Component={LogoutPage} />

@@ -27,8 +27,6 @@ const EditProductPage = () => {
     description: string,
   }
 
-  const list: ProductStatusInterface[] = []
-
   const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState("")
   const [code, setCode] = useState("")

@@ -4,7 +4,8 @@ interface TextInputProps {
     error: string,
     type: string
     disabled?: boolean
-    value?: string
+    value?: string,
+    required?: boolean
 }
 
 export default TextInputProps
