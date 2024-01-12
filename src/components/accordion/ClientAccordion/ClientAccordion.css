@@ -1,0 +1,24 @@
+.clientAccordionLabel {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.clientAccordionTitle {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.clientAccordionTitleContainer {
+    width: 100%;
+    overflow: hidden;
+}
+
+
+.clientAccordionTitleLeft {
+    float: left;
+}
+
+.clientAccordionTitleRight {
+    float: right;
+    margin-right: 2rem;
+}
