@@ -35,10 +35,6 @@ const ClientAccordion: React.FC<ClientAccordionProps> = ({id, firstName, lastNam
                 <AccordionDetails>
                     <hr />
                     <br />
-                    <div>
-                        <Button onClick={editProduct} variant="contained">Edit Client</Button>
-                    </div>
-                    <br />
                     <Grid container spacing={2}>
                         <Grid item sm={12} xs={12} md={6}>
                             <div>
@@ -78,6 +74,10 @@ const ClientAccordion: React.FC<ClientAccordionProps> = ({id, firstName, lastNam
                             </div>
                         </Grid>
                     </Grid>
+                    <br />
+                    <div>
+                        <Button onClick={editProduct} style={{width:'100%'}} variant="contained">Edit Client</Button>
+                    </div>
                 </AccordionDetails>
             </Accordion>
         </div>
